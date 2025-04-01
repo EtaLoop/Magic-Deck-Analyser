@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, FlatList, Text, StyleSheet, View, Button } from 'react-native';
 import { setupDatabase, getCards, addCard } from './database'; // Importe la DB locale
+import { Link } from 'expo-router';
 
 interface Card {
     id: number;  // Assurez-vous que `id` correspond bien à l'int SQL
@@ -37,7 +38,9 @@ const CardViewer = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Button title="Ajouter une carte" onPress={handleAddCard} />
+            <Link href="/deck_menu">
+                <Button title="Ajouter une carte" />
+            </Link>
             <FlatList
                 data={cards}
                 renderItem={renderItem}
