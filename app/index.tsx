@@ -1,26 +1,81 @@
-import { View, Text, Pressable, Button } from 'react-native';
-import { Link } from 'expo-router';
-import { clearDatabase } from './database';
+import React from 'react';
+import { SafeAreaView, StyleSheet, Text, View, Pressable } from 'react-native';
+import { useRouter } from 'expo-router'; // Pour naviguer entre les pages
 
+const MenuScreen = () => {
+    const router = useRouter();
 
+    // Fonction pour naviguer vers les différentes pages
+    const handleNavigation = (route: string) => {
+        // Utilisation correcte de la navigation
+        router.push(String(route));
+    };
 
+    return (
+        <SafeAreaView style={styles.container}>
+            <Text style={styles.header}>Bienvenue sur Magic Deck Manager</Text>
+            <Text style={styles.subheader}>Sélectionnez une option pour commencer</Text>
 
+            <View style={styles.menuContainer}>
 
-export default function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Link href="/deck_menu" asChild>
-        <Pressable style={{ marginTop: 20, padding: 10, backgroundColor: 'blue', borderRadius: 5 }}>
-          <Text style={{ color: 'white' }}>Add deck</Text>
-        </Pressable>
-      </Link>
-      <Link href="/ListDeckViewer" asChild>
-        <Pressable style={{ marginTop: 20, padding: 10, backgroundColor: 'blue', borderRadius: 5 }}>
-          <Text style={{ color: 'white' }}>View deck</Text>
-        </Pressable>
-      </Link>
-      <Button title="CLear databse" onPress={clearDatabase} />
-    </View>
+                {/* Option: Voir les Decks */}
+                <Pressable style={styles.menuItem} onPress={() => handleNavigation('/DeckViewer')}>
+                    <Text style={styles.menuText}>Voir les Decks</Text>
+                </Pressable>
 
-  );
-}
+                {/* Option: Voir les Cartes */}
+                <Pressable style={styles.menuItem} onPress={() => handleNavigation('/CardViewer')}>
+                    <Text style={styles.menuText}>Voir les Cartes</Text>
+                </Pressable>
+
+                {/* Option: Gérer les Cartes */}
+                <Pressable style={styles.menuItem} onPress={() => handleNavigation('/ManageCards')}>
+                    <Text style={styles.menuText}>Gérer les Cartes</Text>
+                </Pressable>
+            </View>
+        </SafeAreaView>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#f0f0f0',
+        padding: 20,
+    },
+    header: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 20,
+    },
+    subheader: {
+        fontSize: 18,
+        color: '#555',
+        marginBottom: 40,
+    },
+    menuContainer: {
+        width: '100%',
+        padding: 10,
+    },
+    menuItem: {
+        backgroundColor: '#4CAF50',
+        padding: 15,
+        borderRadius: 8,
+        marginVertical: 10,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 3,
+    },
+    menuText: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: '#fff',
+        fontWeight: '600',
+    },
+});
+
+export default MenuScreen;

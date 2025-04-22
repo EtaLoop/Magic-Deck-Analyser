@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, FlatList, Text, StyleSheet, View, Button, ImageBackground, Dimensions } from 'react-native';
-import { setupDatabase, getCards } from './database'; // Importe la DB locale
+import { setupDatabase, getCards, getCardsByDeckId } from './database'; // Importe la DB locale
 import { Link } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
 interface Card {
     id: number;  // Assurez-vous que `id` correspond bien à l'int SQL
@@ -9,7 +10,12 @@ interface Card {
     image: string;
 }
 
+
+
+
 const CardViewer = () => {
+    const { id } = useLocalSearchParams(); // id sera une string
+
     const [cards, setCards] = useState<Card[]>([]);
 
     useEffect(() => {
@@ -19,12 +25,13 @@ const CardViewer = () => {
 
     const loadCards = async () => {
         try {
-            const data = await getCards(); // On attend que `getCards` retourne les données
+            const data = await getCardsByDeckId(Number(id));
             setCards(data);
         } catch (error) {
-            console.error("Erreur lors du chargement des cartes :", error);
+            console.error("Erreur lors du chargement des cartes du deck :", error);
         }
     };
+    
 
     const renderItem = ({ item }: { item: Card }) => (
         <View style={styles.cardContainer}>
@@ -36,15 +43,15 @@ const CardViewer = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Link href="/deck_menu" asChild>
+            <Link href={{ pathname: '/deck_menu', params: { id: id } }} asChild>
                 <Button title="Ajouter une carte" />
             </Link>
             <FlatList
                 data={cards}
                 renderItem={renderItem}
-                keyExtractor={item => item.id.toString()} // Convertir en string si nécessaire
+                keyExtractor={item => item.id.toString()}
                 numColumns={3}
-                contentContainerStyle={styles.cardContainer} // Centrer les cartes dans la ligne
+                contentContainerStyle={styles.cardContainer}
             />
         </SafeAreaView>
     );
