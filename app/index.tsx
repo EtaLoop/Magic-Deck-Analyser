@@ -1,5 +1,7 @@
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, Button } from 'react-native';
 import { Link } from 'expo-router';
+import { clearDatabase } from './database';
+
 
 
 
@@ -17,6 +19,8 @@ export default function HomeScreen() {
           <Text style={{ color: 'white' }}>View deck</Text>
         </Pressable>
       </Link>
+      <Button title="CLear databse" onPress={clearDatabase} />
     </View>
+
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert, Image, Text } from 'react-native';
+import { addCard } from './database';
 
 const FormScreen = () => {
     
@@ -28,6 +29,7 @@ const FormScreen = () => {
                 alert("Card found.");
                 setCardData(data);
                 showCard(data); // Appel de la fonction showCard avec les données de la carte
+                addCard(data.name, data.image_uris.normal);
             }
         } catch (error) {
             console.log("error");

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, FlatList, Text, StyleSheet, View, Button } from 'react-native';
-import { setupDatabase, getCards, addCard } from './database'; // Importe la DB locale
+import { SafeAreaView, FlatList, Text, StyleSheet, View, Button, ImageBackground, Dimensions } from 'react-native';
+import { setupDatabase, getCards } from './database'; // Importe la DB locale
 import { Link } from 'expo-router';
 
 interface Card {
     id: number;  // Assurez-vous que `id` correspond bien à l'int SQL
     name: string;
+    image: string;
 }
 
 const CardViewer = () => {
@@ -25,47 +26,51 @@ const CardViewer = () => {
         }
     };
 
-    const handleAddCard = async () => {
-        await addCard('Nouvelle carte'); // Ajoute une carte
-        loadCards(); // Recharge la liste après l'ajout
-    };
-
     const renderItem = ({ item }: { item: Card }) => (
-        <View style={styles.card}>
-            <Text style={styles.cardText}>{item.name}</Text>
+        <View style={styles.cardContainer}>
+            <ImageBackground source={{ uri: item.image }} style={styles.card} imageStyle={{ borderRadius: 8 }}>
+                <Text style={styles.cardText}>{item.name}</Text>
+            </ImageBackground>
         </View>
     );
 
     return (
         <SafeAreaView style={styles.container}>
-            <Link href="/deck_menu">
+            <Link href="/deck_menu" asChild>
                 <Button title="Ajouter une carte" />
             </Link>
             <FlatList
                 data={cards}
                 renderItem={renderItem}
                 keyExtractor={item => item.id.toString()} // Convertir en string si nécessaire
-                numColumns={4}
-                columnWrapperStyle={styles.columnWrapper}
+                numColumns={3}
+                contentContainerStyle={styles.cardContainer} // Centrer les cartes dans la ligne
             />
         </SafeAreaView>
     );
 };
 
+const screenWidth = Dimensions.get('window').width;
+const totalMargin = 6 * 8;
+const cardWidth = (screenWidth - totalMargin) / 3;
+
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#f0f0f0', padding: 16 },
-    card: { 
-        backgroundColor: '#ff4d4d', 
-        padding: 16, 
-        margin: 8, 
-        borderRadius: 8, 
-        flex: 1, 
-        minWidth: '22%', 
-        minHeight: 150, 
-        justifyContent: 'center', 
-        alignItems: 'center' 
+    container: { flex: 1, backgroundColor: '#f0f0f0', padding: 0 },
+    cardContainer: {
+        width: cardWidth,
+        height: 160,
+        margin: 6
     },
-    cardText: { fontSize: 18, textAlign: 'center', color: '#fff' },
+    card: {
+        
+        flex: 1, 
+        padding: 6, 
+        borderRadius: 8, 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        overflow: 'scroll' // Empêche le débordement des bords arrondis
+    },
+    cardText: { fontSize: 18, textAlign: 'center', color: '#fff', backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: 4, borderRadius: 4 },
     columnWrapper: { justifyContent: 'space-between' }
 });
 

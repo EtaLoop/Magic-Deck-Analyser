@@ -14,7 +14,8 @@ export const setupDatabase = () => {
             );
             CREATE TABLE IF NOT EXISTS Card (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL
+                name TEXT NOT NULL,
+                image TEXT NOT NULL
             );
             CREATE TABLE IF NOT EXISTS Deck_Card (
                 deckId INTEGER NOT NULL,
@@ -30,15 +31,31 @@ export const setupDatabase = () => {
     }
 };
 
-// Ajouter une carte (Synchronisé)
-export const addCard = (name: string) => {
+export const clearDatabase = () => {
     try {
-        db.runSync('INSERT INTO Card (name) VALUES (?)', [name]);
-        console.log("✅ Carte ajoutée :", name);
+        db.execSync(`
+            DROP TABLE IF EXISTS Deck_Card;
+            DROP TABLE IF EXISTS Card;
+            DROP TABLE IF EXISTS Deck;
+        `);
+        console.log("✅ Toutes les tables ont été supprimées avec succès");
+    } catch (error) {
+        console.error("❌ Erreur lors de la suppression des tables", error);
+    }
+};
+
+
+
+// Ajouter une carte (Synchronisé)
+export const addCard = (name: string, image: string) => {
+    try {
+        db.runSync('INSERT INTO Card (name, image) VALUES (?, ?)', [name, image]);
+        console.log("✅ Carte ajoutée :", name, "avec image :", image);
     } catch (error) {
         console.error("❌ Erreur lors de l'ajout de la carte", error);
     }
 };
+
 
 // Récupérer les cartes (Synchronisé)
 export const getCards = (): any[] => {
