@@ -19,7 +19,7 @@ const MenuScreen = () => {
             <View style={styles.menuContainer}>
 
                 {/* Option: Voir les Decks */}
-                <Pressable style={styles.menuItem} onPress={() => handleNavigation('/DeckViewer')}>
+                <Pressable style={styles.menuItem} onPress={() => handleNavigation('/ListDeckViewer')}>
                     <Text style={styles.menuText}>Voir les Decks</Text>
                 </Pressable>
 
