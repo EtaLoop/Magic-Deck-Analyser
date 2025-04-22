@@ -2,6 +2,7 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Pressable } from 'react-native';
 import { useRouter } from 'expo-router'; // Pour naviguer entre les pages
 import { TouchableOpacity } from "react-native";
+import { clearDatabase } from './database';
 
 
 const MenuScreen = () => {
@@ -33,6 +34,10 @@ const MenuScreen = () => {
                 {/* Option: Gérer les Cartes */}
                 <Pressable style={styles.menuItem} onPress={() => handleNavigation('/ManageCards')}>
                     <Text style={styles.menuText}>Gérer les Cartes</Text>
+                </Pressable>
+
+                <Pressable style={styles.menuItem} onPress={() => clearDatabase()}>
+                    <Text style={styles.menuText}>Clear database</Text>
                 </Pressable>
             </View>
         </SafeAreaView>

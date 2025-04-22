@@ -15,7 +15,8 @@ export const setupDatabase = () => {
             CREATE TABLE IF NOT EXISTS Card (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
-                image TEXT NOT NULL
+                image TEXT NOT NULL,
+                type TEXT NOT NULL
             );
             CREATE TABLE IF NOT EXISTS Deck_Card (
                 deckId INTEGER NOT NULL,
@@ -47,9 +48,9 @@ export const clearDatabase = () => {
 
 
 // Ajouter une carte (Synchronisé)
-export const addCard = (name: string, image: string): number | null => {
+export const addCard = (name: string, image: string, type: string): number | null => {
     try {
-        db.runSync('INSERT INTO Card (name, image) VALUES (?, ?)', [name, image]);
+        db.runSync('INSERT INTO Card (name, image, type) VALUES (?, ?, ?)', [name, image, type]);
 
         const result = db.getFirstSync<{ id: number }>('SELECT last_insert_rowid() as id');
 

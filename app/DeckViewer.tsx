@@ -4,7 +4,6 @@ import { setupDatabase, getCards, getCardsByDeckId } from './database'; // Impor
 import { Link } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router';
 import { TouchableOpacity } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from "@expo/vector-icons";
 
 interface Card {
@@ -51,6 +50,11 @@ const CardViewer = () => {
                     <FontAwesome name="plus-circle" size={60} color="#007AFF" />
                 </TouchableOpacity>
             </Link>
+            <Link href="/Statistics" asChild>
+                <TouchableOpacity style={styles.fabSecondary}>
+                    <FontAwesome name="bar-chart" size={50} color="#2196F3" />
+                </TouchableOpacity>
+            </Link>
             <FlatList
                 data={cards}
                 renderItem={renderItem}
@@ -83,7 +87,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 5,
         elevation: 5,
-      },
+    },
+    fabSecondary: {
+        marginBottom: 20, // spacing between buttons if 'gap' not supported
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        elevation: 5,
+    },
     card: {
 
         flex: 1,

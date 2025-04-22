@@ -63,7 +63,21 @@ const FormScreen = () => {
                 return;
             }
 
-            const newCardId = addCard(data.name, data.image_uris.normal);
+            let type = data.type_line.split("—")[0].trim();
+
+            if (type.includes("Artefact")) {
+                type = "Artefact";
+            } else if (type.includes("Creature")) {
+                type = "Creature";
+            } else if (type.includes("Sorcery")) {
+                type = "Sorcery";
+            } else if (type.includes("Land")) {
+                type = "Land";
+            } else {
+                type = "Unknown";
+            }
+
+            const newCardId = addCard(data.name, data.image_uris.normal, type);
             addLinkDeckCard(Number(deckId), Number(newCardId));
             setCardImageUrl(data.image_uris.normal);
             alert("Card added and linked!");
