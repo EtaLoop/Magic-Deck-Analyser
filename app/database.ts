@@ -75,18 +75,22 @@ export const addDeck = (name: string) => {
 
 
 export const addLinkDeckCard = (idDeck: number, idCard: number) => {
+    if (!idDeck || !idCard) {
+        console.error("❌ L'un des ID est invalide : deckId ou cardId est manquant.");
+        return;
+    }
+
     try {
+        // Insérer le lien entre le deck et la carte dans la table Deck_Card
         db.runSync(
             'INSERT INTO Deck_Card (deckId, cardId) VALUES (?, ?)',
             [idDeck, idCard]
         );
         console.log(`✅ Lien (deck: ${idDeck}, carte: ${idCard}) ajouté ou déjà existant`);
     } catch (error) {
-        console.error( idDeck, idCard);
+        console.error("❌ Erreur lors de l'ajout du lien entre le deck et la carte", error);
     }
 };
-
-
 
 
 // Récupérer les cartes (Synchronisé)

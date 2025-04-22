@@ -1,6 +1,8 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Pressable } from 'react-native';
 import { useRouter } from 'expo-router'; // Pour naviguer entre les pages
+import { TouchableOpacity } from "react-native";
+
 
 const MenuScreen = () => {
     const router = useRouter();

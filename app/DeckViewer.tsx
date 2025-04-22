@@ -46,7 +46,7 @@ const CardViewer = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Link href="/deck_menu" asChild>
+            <Link href={{ pathname: '/deck_menu', params: { id: id } }} asChild>
                 <TouchableOpacity style={styles.fab}>
                     <FontAwesome name="plus-circle" size={60} color="#007AFF" />
                 </TouchableOpacity>
