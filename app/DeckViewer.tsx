@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, FlatList, Text, StyleSheet, View, Button, ImageBackground, Dimensions } from 'react-native';
 import { setupDatabase, getCards } from './database'; // Importe la DB locale
 import { Link } from 'expo-router';
+import { TouchableOpacity } from "react-native";
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from "@expo/vector-icons";
 
 interface Card {
     id: number;  // Assurez-vous que `id` correspond bien à l'int SQL
@@ -37,7 +40,9 @@ const CardViewer = () => {
     return (
         <SafeAreaView style={styles.container}>
             <Link href="/deck_menu" asChild>
-                <Button title="Ajouter une carte" />
+                <TouchableOpacity style={styles.fab}>
+                    <FontAwesome name="plus-circle" size={60} color="#007AFF" />
+                </TouchableOpacity>
             </Link>
             <FlatList
                 data={cards}
@@ -61,13 +66,24 @@ const styles = StyleSheet.create({
         height: 160,
         margin: 6
     },
+    fab: {
+        position: 'absolute',
+        bottom: 30,
+        right: 30,
+        zIndex: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        elevation: 5,
+      },
     card: {
-        
-        flex: 1, 
-        padding: 6, 
-        borderRadius: 8, 
-        justifyContent: 'center', 
-        alignItems: 'center', 
+
+        flex: 1,
+        padding: 6,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
         overflow: 'scroll' // Empêche le débordement des bords arrondis
     },
     cardText: { fontSize: 18, textAlign: 'center', color: '#fff', backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: 4, borderRadius: 4 },

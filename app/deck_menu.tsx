@@ -24,7 +24,7 @@ const FormScreen = () => {
             const data = await response.json();
             console.log(data);
             if (data.code == "not_found") {
-                alert("Card not found, try again.");
+                alert("Card not found, try again.\n" + "Details: " +  data.details);
             } else {
                 alert("Card found.");
                 setCardData(data);
