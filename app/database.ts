@@ -1,5 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 import { openDatabaseSync } from 'expo-sqlite';
+import { Int32 } from 'react-native/Libraries/Types/CodegenTypes';
 
 // Ouvre la base de données en mode synchrone
 const db = openDatabaseSync('cards.db');
@@ -16,7 +17,8 @@ export const setupDatabase = () => {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 image TEXT NOT NULL,
-                type TEXT NOT NULL
+                type TEXT NOT NULL,
+                manaCost INTEGER NOT NULL
             );
             CREATE TABLE IF NOT EXISTS Deck_Card (
                 deckId INTEGER NOT NULL,
@@ -48,9 +50,9 @@ export const clearDatabase = () => {
 
 
 // Ajouter une carte (Synchronisé)
-export const addCard = (name: string, image: string, type: string): number | null => {
+export const addCard = (name: string, image: string, type: string, manaCost: Int32): number | null => {
     try {
-        db.runSync('INSERT INTO Card (name, image, type) VALUES (?, ?, ?)', [name, image, type]);
+        db.runSync('INSERT INTO Card (name, image, type, manaCost) VALUES (?, ?, ?, ?)', [name, image, type, manaCost]);
 
         const result = db.getFirstSync<{ id: number }>('SELECT last_insert_rowid() as id');
 

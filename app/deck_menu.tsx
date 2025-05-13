@@ -9,6 +9,20 @@ interface Card {
     image: string;
 }
 
+function getManaCostTotal(manaString: string) {
+  const regex = /{(.*?)}/g;
+  let match;
+  let total = 0;
+
+  while ((match = regex.exec(manaString)) !== null) {
+    const value = match[1];
+    const number = parseInt(value);
+    total += isNaN(number) ? 1 : number;
+  }
+
+  return total;
+}
+
 const FormScreen = () => {
     const { id: deckId } = useLocalSearchParams();
     const [cardName, setCardName] = useState('');
@@ -63,6 +77,10 @@ const FormScreen = () => {
                 return;
             }
 
+            console.log(data);
+            let manaCost = getManaCostTotal(data.mana_cost);
+            console.log("mana cost: ", manaCost);
+
             let type = data.type_line.split("—")[0].trim();
 
             if (type.includes("Artefact")) {
@@ -77,7 +95,7 @@ const FormScreen = () => {
                 type = "Unknown";
             }
 
-            const newCardId = addCard(data.name, data.image_uris.normal, type);
+            const newCardId = addCard(data.name, data.image_uris.normal, type, manaCost);
             addLinkDeckCard(Number(deckId), Number(newCardId));
             setCardImageUrl(data.image_uris.normal);
             alert("Card added and linked!");
